@@ -29,6 +29,8 @@ jobs:
       - name: "Lint"
         run: "npm lint"
         working-directory: ./angular
+      
+      - run: echo kek
 
   building:
     needs: testing
