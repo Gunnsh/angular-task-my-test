@@ -22,8 +22,11 @@ jobs:
         run: "npm install"
         working-directory: ./angular
         
+      - name: "Install Chrome"
+        uses: "browser-actions/setup-chrome@v0.0.0"
+        
       - name: "Testing"
-        run: "npm coverage"
+        run: "npm run coverage"
         working-directory: ./angular
 
       - name: "Building app"
