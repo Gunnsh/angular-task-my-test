@@ -1,28 +1,26 @@
-name: Test Task CI
-
-on:
-  workflow_dispatch:
-
-jobs:
-  build:
+--- 
+jobs: 
+  build: 
     runs-on: ubuntu-latest
-      steps:
-      
-      - name: Copy repos
+    steps: 
+      - 
+        name: "Copy repos"
         uses: actions/checkout@v3
-	
-      - name: Use Node.js 18.0.0
+      - 
+        name: "Use Node.js 18.0.0"
         uses: actions/setup-node@v3
-	  with:
-          node-version: 18.0.0
-	    cache: 'npm'
-	
-      - name: Runnning npm ci
-        run: npm ci
-	
-      - name: Running tests
-        run: npm test
-        run: npm lint
-	
-      - name: Building app
-        run: npm build
+        with: 
+          cache: npm
+          node-version: "18.0.0"
+      - 
+        name: "Runnning npm ci"
+        run: "npm ci"
+      - 
+        name: "Running tests"
+        run: "npm lint"
+      - 
+        name: "Building app"
+        run: "npm build"
+name: "Test Task CI"
+true: 
+  workflow_dispatch: ~
