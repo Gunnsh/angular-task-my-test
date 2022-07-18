@@ -24,10 +24,12 @@ jobs:
         
       - name: "Install Chrome"
         uses: "browser-actions/setup-chrome@latest"
-      - run: "chrome --version"
+        
+      - name: "Setting Path" 
+        run: "export CHROME_BIN=/opt/hostedtoolcache/chromium/latest/x64/chrome"
         
       - name: "Testing"
-        run: "CHROMIUM_BIN=$(which chrome) npm run test -- --no-watch --no-progress --browsers=Chrome"
+        run: "npm run test -- --no-watch --no-progress --browsers=Chrome"
         working-directory: ./angular
 
       - name: "Building app"
