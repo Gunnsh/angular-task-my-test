@@ -23,7 +23,7 @@ jobs:
         working-directory: ./angular
         
       - name: "Testing"
-        run: "npm test"
+        run: "npm coverage"
         working-directory: ./angular
 
       - name: "Building app"
