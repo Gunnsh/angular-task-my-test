@@ -10,6 +10,11 @@ jobs:
   testing:
     runs-on: ubuntu-latest
     steps:
+      - name: Set start timestamp
+        id: start
+        run: |
+          printf '::set-output name=timestamp::%(%s)T\n'
+        
       - name: "Copy repos"
         uses: actions/checkout@v1
 
@@ -84,6 +89,11 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           
+      - name: Calculate duration
+        run: |
+          printf -v now '%(%s)T'
+          duration=$((now - ${{ steps.start.outputs.timestamp }}))
+          
       - name: Send mail
         if: always()
         uses: dawidd6/action-send-mail@v3
@@ -96,4 +106,3 @@ jobs:
           body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
           to: verdenart@gmail.com
           from: Test Task
-      
