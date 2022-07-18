@@ -30,9 +30,8 @@ jobs:
         run: "npm lint"
         working-directory: ./angular
       
-      - name: "Notice"
         if: ${{ failure() }}
-        run: echo Fail
+      - run: echo ::error file={name},line={line},endLine={endLine},title={title}::{message}
 
   building:
     needs: testing
