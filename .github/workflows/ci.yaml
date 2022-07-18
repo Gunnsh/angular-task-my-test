@@ -29,6 +29,18 @@ jobs:
       - name: "Lint"
         run: "npm run lint"
         working-directory: ./angular
+        
+      - name: Send mail
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+          to: verdenart@gmail.com
+          from: Test Task
 
   building:
     needs: testing
@@ -70,26 +82,16 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-  
-  sending_message:
-    runs-on: ubuntu-latest
-    steps:
+          
       - name: Send mail
-        if: always()
-        uses: dawidd6/action-send-mail@v2
+        uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-
           subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-
           body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
-
           to: verdenart@gmail.com
-
           from: Test Task
-
       
