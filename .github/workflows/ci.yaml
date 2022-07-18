@@ -22,10 +22,6 @@ jobs:
         run: "npm install"
         working-directory: ./angular
 
-      - name: Testing
-        run: "npm test"
-        working-directory: ./angular
-
       - name: "Building app"
         run: "npm build"
         working-directory: ./angular
