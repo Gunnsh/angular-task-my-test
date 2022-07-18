@@ -7,7 +7,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  build:
+  testing:
     runs-on: ubuntu-latest
     steps:
       - name: "Copy repos"
@@ -26,6 +26,10 @@ jobs:
         run: "npm test -- --watch=false --browsers=ChromeHeadless"
         working-directory: ./angular
 
+  building:
+    needs: testing
+    runs-on: ubuntu-latest
+    steps:
       - name: "Building app"
         run: "npm run build"
         working-directory: ./angular
