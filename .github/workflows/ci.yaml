@@ -19,7 +19,7 @@ jobs:
           node-version: "18.5.0"
       
       - name: "Testing"
-        run: "ng test --watch=false --browsers=ChromeHeadless"
+        run: "npm run coverage"
         working-directory: ./angular
 
       - name: "Install dependencies"
