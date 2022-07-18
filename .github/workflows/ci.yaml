@@ -25,6 +25,10 @@ jobs:
       - name: "Testing"
         run: "npm test -- --watch=false --browsers=ChromeHeadless"
         working-directory: ./angular
+        
+      - name: "Lint"
+        run: "npm lint"
+        working-directory: ./angular
 
   building:
     needs: testing
