@@ -11,12 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Copy repos"
-        uses: actions/checkout@v3
+        uses: actions/checkout@v1
 
       - name: "Use Node.js 18.5.0"
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v1
         with:
           node-version: "18.5.0"
+      
+      - name: "Testing"
+        run: "ng test --watch=false --browsers=ChromeHeadless"
+        working-directory: ./angular
 
       - name: "Install dependencies"
         run: "npm install"
