@@ -21,9 +21,13 @@ jobs:
       - name: "Install dependencies"
         run: "npm install"
         working-directory: ./angular
+        
+      - name: "Testing"
+        run: "npm test"
+        working-directory: ./angular
 
       - name: "Building app"
-        run: "ng build"
+        run: "npm build"
         working-directory: ./angular
 
       - name: "Log in to the Container registry"
