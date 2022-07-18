@@ -30,7 +30,9 @@ jobs:
         run: "npm lint"
         working-directory: ./angular
       
-      - run: echo kek
+      - name: "Notice"
+        if: ${{ failure() }}
+        run: echo Fail
 
   building:
     needs: testing
