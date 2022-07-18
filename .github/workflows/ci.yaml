@@ -27,11 +27,8 @@ jobs:
         working-directory: ./angular
         
       - name: "Lint"
-        run: "npm lint"
+        run: "npm run lint"
         working-directory: ./angular
-      
-        if: ${{ failure() }}
-      - run: echo ::error file={name},line={line},endLine={endLine},title={title}::{message}
 
   building:
     needs: testing
@@ -73,3 +70,23 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+  
+  sending_message:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send mail
+        if: always()
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+
+          to: verdenart@gmail.com
+
+          from: Test Task
+
+      
