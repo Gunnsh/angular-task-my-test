@@ -7,7 +7,7 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
-  testing:
+  task-building:
     runs-on: ubuntu-latest
     steps:
         
@@ -22,9 +22,6 @@ jobs:
       - name: "Install dependencies"
         run: "npm install"
         working-directory: ./angular
-        
-      - name: "Test exit"
-        run: exit 1
         
       - name: "Testing"
         run: "npm test -- --watch=false --browsers=ChromeHeadless"
@@ -33,35 +30,9 @@ jobs:
       - name: "Lint"
         run: "npm run lint"
         working-directory: ./angular
-        
-      - name: Send mail
-        if: failure()
-        uses: dawidd6/action-send-mail@v3
-        with:
-          server_address: smtp.gmail.com
-          server_port: 465
-          username: ${{secrets.MAIL_USERNAME}}
-          password: ${{secrets.MAIL_PASSWORD}}
-          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
-          to: verdenart@gmail.com
-          from: Test Task
 
-  building:
-    needs: testing
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Copy repos"
-        uses: actions/checkout@v1
-
-      - name: "Use Node.js 18.5.0"
-        uses: actions/setup-node@v1
-        with:
-          node-version: "18.5.0"
-
-      - name: "Install dependencies"
-        run: "npm install"
-        working-directory: ./angular
+      - name: "Stop on fail"
+        run: exit 1
         
       - name: "Building app"
         run: "npm run build"
