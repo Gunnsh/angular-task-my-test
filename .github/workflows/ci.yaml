@@ -63,7 +63,7 @@ jobs:
       - name: "Get exec time"
         if: always()
         id: "get-time"
-        run: echo "::set-output name=time::$(gh run list --workflow ci.yml | head -n 1 | awk -F'\t' '{print $8}')"
+        run: echo "::set-output name=time::$(gh run list --workflow ci.yaml | head -n 1 | awk -F'\t' '{print $8}')"
           
       - name: Send mail
         if: always()
