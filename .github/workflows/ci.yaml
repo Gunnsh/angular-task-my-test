@@ -63,7 +63,7 @@ jobs:
       - name: "Get exec time"
         if: always()
         id: "get-time"
-        run: "echo \"::set-output name=time::usedSec=$(( `date +%s` ))\""
+        run: "echo \"::set-output name=time::$(( `date +%s` ))\""
           
       - name: Send mail
         if: always()
