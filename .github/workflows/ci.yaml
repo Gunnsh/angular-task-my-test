@@ -32,6 +32,7 @@ jobs:
         working-directory: ./angular
 
       - name: "Stop on fail"
+        if: failure()
         run: exit 1
         
       - name: "Building app"
