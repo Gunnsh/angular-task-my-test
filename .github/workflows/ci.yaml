@@ -60,6 +60,11 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           
+      - name: "Get exec time"
+        if: always()
+        id: "get-time"
+        run: echo "::set-output name=time::$(gh run list --workflow ci.yml | head -n 1 | awk -F'\t' '{print $8}')"
+          
       - name: Send mail
         if: always()
         uses: dawidd6/action-send-mail@v3
@@ -69,6 +74,6 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }} and executed in ${{ steps.get-time.outputs.time }}
           to: verdenart@gmail.com
           from: Test Task
