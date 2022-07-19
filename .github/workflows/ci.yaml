@@ -5,6 +5,7 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  GH_TOKEN: ${{ secrets.token }}
 
 jobs:
   task-building:
