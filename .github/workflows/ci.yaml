@@ -10,7 +10,7 @@ jobs:
   task-building:
     runs-on: ubuntu-latest
     steps:
-      - name: "Getting starting time"
+      - name: "Getting a start time"
         if: always()
         id: "get-cur"
         run: echo "::set-output name=time::$(( `date +%s` ))"
@@ -36,6 +36,7 @@ jobs:
         working-directory: ./angular
 
       - name: "Stop on fail?"
+        if: failure()
         run: exit 1
         
       - name: "Building"
