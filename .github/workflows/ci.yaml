@@ -80,6 +80,6 @@ jobs:
           subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
           body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} \
                 has ${{ job.status }} and executed in \
-                ${{ steps.get-time.outputs.time }} and ${{ steps.get-cur.outputs.time }}
+                (${{ steps.get-time.outputs.time }} - ${{ steps.get-cur.outputs.time }}) sec
           to: verdenart@gmail.com
           from: Test Task
