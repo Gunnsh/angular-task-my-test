@@ -78,8 +78,9 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} \
-                has ${{ job.status }} and executed in \
+          body: |
+                ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }}
+                has ${{ job.status }} and executed in
                 ${{ steps.get-time.outputs.time }} sec
           to: verdenart@gmail.com
           from: Test Task
