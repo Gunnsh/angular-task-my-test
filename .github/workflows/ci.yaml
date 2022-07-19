@@ -1,22 +1,21 @@
-name: "Test Task CI"
+name: "Test task CI"
 on:
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   task-building:
     runs-on: ubuntu-latest
     steps:
-      - name: "Get exec time"
+      - name: "Getting starting time"
         if: always()
         id: "get-cur"
         run: echo "::set-output name=time::$(( `date +%s` ))"
         
-      - name: "Copy repos"
+      - name: "Copying repos"
         uses: actions/checkout@v1
 
       - name: "Use Node.js 18.5.0"
@@ -24,7 +23,7 @@ jobs:
         with:
           node-version: "18.5.0"
 
-      - name: "Install dependencies"
+      - name: "Installing dependencies"
         run: "npm install"
         working-directory: ./angular
         
@@ -32,14 +31,14 @@ jobs:
         run: "npm test -- --watch=false --browsers=ChromeHeadless"
         working-directory: ./angular
         
-      - name: "Lint"
+      - name: "Lint check"
         run: "npm run lint"
         working-directory: ./angular
 
-      - name: "Stop on fail"
+      - name: "Stop on fail?"
         run: exit 1
         
-      - name: "Building app"
+      - name: "Building"
         run: "npm run build"
         working-directory: ./angular
 
@@ -50,7 +49,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: "Extract metadata (tags, labels) for Docker"
+      - name: "Extracting metadata (tags, labels) for Docker"
         id: "meta"
         uses: "docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38"
         with:
@@ -64,12 +63,12 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           
-      - name: "Get exec time"
+      - name: "Getting total exec time"
         if: always()
         id: "get-time"
         run: echo "::set-output name=time::$(( `date +%s` - ${{ steps.get-cur.outputs.time }} ))"
           
-      - name: Send mail
+      - name: "Sending mail"
         if: always()
         uses: dawidd6/action-send-mail@v3
         with:
@@ -79,8 +78,7 @@ jobs:
           password: ${{secrets.MAIL_PASSWORD}}
           subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
           body: |
-                ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }}
-                has ${{ job.status }} and executed in
-                ${{ steps.get-time.outputs.time }} sec
+                ${{ github.job }} job in workflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+                Executed in ${{ steps.get-time.outputs.time }} sec
           to: verdenart@gmail.com
           from: Test Task
