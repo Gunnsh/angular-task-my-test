@@ -10,10 +10,6 @@ jobs:
   testing:
     runs-on: ubuntu-latest
     steps:
-      - name: Set start timestamp
-        id: start
-        run: |
-          printf '::set-output name=timestamp::%(%s)T\n'
         
       - name: "Copy repos"
         uses: actions/checkout@v1
@@ -88,11 +84,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          
-      - name: Calculate duration
-        run: |
-          printf -v now '%(%s)T'
-          duration=$((now - ${{ steps.start.outputs.timestamp }}))
           
       - name: Send mail
         if: always()
