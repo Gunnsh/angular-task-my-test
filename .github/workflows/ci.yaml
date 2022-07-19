@@ -11,6 +11,10 @@ jobs:
   task-building:
     runs-on: ubuntu-latest
     steps:
+      - name: "Get exec time"
+        if: always()
+        id: "get-cur"
+        run: echo "::set-output name=time::$(( `date +%s` ))"
         
       - name: "Copy repos"
         uses: actions/checkout@v1
@@ -63,9 +67,7 @@ jobs:
       - name: "Get exec time"
         if: always()
         id: "get-time"
-        run: echo \"::set-output name=time::createdAt=$(gh -R ${GITHUB_REPOSITORY}  run list \
-                                               --json databaseId,createdAt --jq ".[]|select(.databaseId==${{ github.run_id }})|.createdAt")\
-                                            usedSec=$(( `date +%s` - `date -d "$createdAt" +%s`  ))\"
+        run: echo "::set-output name=time::$(( `date +%s` ))"
           
       - name: Send mail
         if: always()
@@ -76,6 +78,8 @@ jobs:
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
-          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }} and executed in ${{ steps.get-time.outputs.time }}
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} \
+                has ${{ job.status }} and executed in \
+                ${{ steps.get-time.outputs.time }} and ${{ steps.get-cur.outputs.time }}
           to: verdenart@gmail.com
           from: Test Task
